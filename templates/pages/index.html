@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple HTML Page</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Simple HTML Page</h1>
+        <p>This is a basic example of an HTML structure.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>About</h2>
+            <p>This section provides information about the webpage.</p>
+        </section>
+
+        <section>
+            <h2>Gallery</h2>
+            <p>Here is a simple gallery:</p>
+            <img src="{% static 'images/image1.jpg' %}" alt="Sample Image 1" width="150">
+            <img src="{% static 'images/image2.jpg' %}" alt="Sample Image 2" width="150">
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name">
+                <br><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Simple HTML Page</p>
+    </footer>
+</body>
+</html>

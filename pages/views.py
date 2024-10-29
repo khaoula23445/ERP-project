@@ -3,4 +3,6 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return render(request,'pages/index.html')
+    return render(request,'index.html')
+def carde(request):
+    return render(request,'liste.html')

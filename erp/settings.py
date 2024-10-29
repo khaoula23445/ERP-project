@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages',
-    'sass_processor',  # Added for SCSS processing
+    'sass_processor',
+    
 ]
 
 MIDDLEWARE = [

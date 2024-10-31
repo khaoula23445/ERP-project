@@ -291,139 +291,127 @@
           <!-- Table 1 -->
           <div id="table1" class="tables-wrapper">
             <div class="row">
-              <div class="col-lg-12">
-                <div class="card-style mb-30">
-                  <div class="d-flex justify-content-between align-items-center mb-10">
-                    <h6>Data Table 1</h6>
-                    <button id="menu-toggle" class="main-btn primary-btn btn-hover custom-button" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
-                      <i class="lni lni-plus me-2"></i> Ajouter Employé
-                    </button>
-                  </div>
-                  <div class="table-wrapper table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <div class="d-flex justify-content-between align-items-center mb-3">
-                            <input type="text" id="tableSearch" class="form-control form-control-sm small-search" placeholder="Search..." onkeyup="filterTable()" style="width: 200px;">
-                          </div>
-                        </tr>
-                        <tr>
-                          <th><h6>#</h6></th>
-                          <th><h6>Nom</h6></th>
-                          <th><h6>Email</h6></th>
-                          <th><h6>Projet</h6></th>
-                          <th><h6>Status</h6></th>
-                          <th><h6>Action</h6></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <!-- User 1 -->
-                        <tr>
-                          <td>
-                            <div class="employee-image">
-                              <img src="assets/images/lead/lead-1.png" alt="" />
+                <div class="col-lg-12">
+                    <div class="card-style mb-30">
+                        <div class="d-flex justify-content-between align-items-center mb-10">
+                            <h6>Data Table 1</h6>
+                            <button id="menu-toggle" class="main-btn primary-btn btn-hover custom-button" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                                <i class="lni lni-plus me-2"></i> Ajouter Employé
+                            </button>
+                        </div>
+                        <div class="table-wrapper table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <input type="text" id="tableSearch" class="form-control form-control-sm small-search" placeholder="Search..." onkeyup="filterTable()" style="width: 200px;">
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <th><h6>#</h6></th>
+                                        <th><h6>Nom</h6></th>
+                                        <th><h6>Email</h6></th>
+                                        <th><h6>Projet</h6></th>
+                                        <th><h6>Status</h6></th>
+                                        <th><h6>Action</h6></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- User 1 -->
+                                    <tr>
+                                        <td>
+                                            <div class="employee-image">
+                                                <img src="assets/images/lead/lead-1.png" alt="" />
+                                            </div>
+                                        </td>
+                                        <td class="min-width"><p>Esther Howard</p></td>
+                                        <td class="min-width"><p><a href="#0">esther@gmail.com</a></p></td>
+                                        <td class="min-width"><p>Admin Dashboard Design</p></td>
+                                        <td class="min-width"><span class="status-btn active-btn">Active</span></td>
+                                        <td>
+                                            <div class="action">
+                                                <button class="text-danger" onclick="showDeleteConfirmation('Esther Howard')">
+                                                    <i class="lni lni-trash-can"></i>
+                                                </button>
+                                                <button onclick="showEditModal('Esther Howard', 'esther@gmail.com', 'Admin Dashboard Design')">
+                                                    <span class="mdi mdi-pencil"></span>
+                                                </button>
+                                                <button onclick="toggleDropdown(this)">
+                                                    <span class="mdi mdi-dots-vertical"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="details-row" style="display: none;">
+                                      <td colspan="6">
+                                        <div class="version-details">
+                                          <p>Version 2.0 - Project Setup</p>
+                                          <p>Version 2.1 - Feature Addition</p>
+                                          <p>Version 2.2 - Minor Updates</p>
+                                        </div>
+                                      </td>
+                                    </tr>
+                              
+                                    <!-- Repeat for other users... -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Edit Employee Modal -->
+        <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editEmployeeModalLabel">Modifier Employé</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editEmployeeForm">
+                            <div class="mb-3">
+                                <label for="editName" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="editName">
                             </div>
-                          </td>
-                          <td class="min-width"><p>Esther Howard</p></td>
-                          <td class="min-width"><p><a href="#0">esther@gmail.com</a></p></td>
-                          <td class="min-width"><p>Admin Dashboard Design</p></td>
-                          <td class="min-width"><span class="status-btn active-btn">Active</span></td>
-                          <td>
-                            <div class="action">
-                              <button class="text-danger">
-                                  <i class="lni lni-trash-can"></i>
-                              </button>
-                              <button>
-                                  <span class="mdi mdi-pencil"></span>
-                              </button>
-                              <button onclick="toggleDropdown(this)">
-                                  <span class="mdi mdi-dots-vertical"></span>
-                              </button>
-                          </div>
-                          </td>
-                        </tr>
-                        <tr class="details-row" style="display: none;">
-                          <td colspan="6">
-                            <div class="version-details">
-                              <p>Version 1.0 - Initial Design</p>
-                              <p>Version 1.1 - UI Improvements</p>
-                              <p>Version 1.2 - Bug Fixes</p>
+                            <div class="mb-3">
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail">
                             </div>
-                          </td>
-                        </tr>
-                  
-                        <!-- User 2 -->
-                        <tr>
-                          <td>
-                            <div class="employee-image">
-                              <img src="assets/images/lead/lead-2.png" alt="" />
+                            <div class="mb-3">
+                                <label for="editProject" class="form-label">Projet</label>
+                                <input type="text" class="form-control" id="editProject">
                             </div>
-                          </td>
-                          <td class="min-width"><p>D. Jonathon</p></td>
-                          <td class="min-width"><p><a href="#0">jonathon@gmail.com</a></p></td>
-                          <td class="min-width"><p>React Dashboard</p></td>
-                          <td class="min-width"><span class="status-btn active-btn">Active</span></td>
-                          <td>
-                            <div class="action">
-                              <button class="text-danger">
-                                  <i class="lni lni-trash-can"></i>
-                              </button>
-                              <button>
-                                  <span class="mdi mdi-pencil"></span>
-                              </button>
-                              <button onclick="toggleDropdown(this)">
-                                  <span class="mdi mdi-dots-vertical"></span>
-                              </button>
-                          </div>
-                          </td>
-                        </tr>
-                        <tr class="details-row" style="display: none;">
-                          <td colspan="6">
-                            <div class="version-details">
-                              <p>Version 2.0 - Project Setup</p>
-                              <p>Version 2.1 - Feature Addition</p>
-                              <p>Version 2.2 - Minor Updates</p>
-                            </div>
-                          </td>
-                        </tr>
-                  
-                        <!-- User 3 -->
-                        <tr>
-                          <td>
-                            <div class="employee-image">
-                              <img src="assets/images/lead/lead-3.png" alt="" />
-                            </div>
-                          </td>
-                          <td class="min-width"><p>Rayhan Jamil</p></td>
-                          <td class="min-width"><p><a href="#0">rayhan@gmail.com</a></p></td>
-                          <td class="min-width"><p>Bootstrap Template</p></td>
-                          <td class="min-width"><span class="status-btn success-btn">Done</span></td>
-                          <td>
-                            <div class="action">
-                              <button class="text-danger">
-                                  <i class="lni lni-trash-can"></i>
-                              </button>
-                              <button>
-                                  <span class="mdi mdi-pencil"></span>
-                              </button>
-                              <button onclick="toggleDropdown(this)">
-                                  <span class="mdi mdi-dots-vertical" ></span>
-                              </button>
-                          </div>
-                          </td>
-                        </tr>
-                        <tr class="details-row" style="display: none;">
-                          <td colspan="6">
-                            <div class="version-details">
-                              <p>Version 3.0 - Full Redesign</p>
-                              <p>Version 3.1 - UX Updates</p>
-                              <p>Version 3.2 - Performance Optimization</p>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" onclick="submitEdit()">Enregistrer les modifications</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirmer la Suppression</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir supprimer cet employé: <span id="employeeName"></span> ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
           <!-- Table 2 (hidden by default) -->
           <div id="table2" class="tables-wrapper" style="display: none;">
             <div class="row">
@@ -515,5 +503,38 @@
     const row = button.closest('tr').nextElementSibling;
     row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
   }
+</script>
+<script>function showEditModal(name, email, project) {
+  document.getElementById('editName').value = name;
+  document.getElementById('editEmail').value = email;
+  document.getElementById('editProject').value = project;
+  var editModal = new bootstrap.Modal(document.getElementById('editEmployeeModal'));
+  editModal.show();
+}
+
+function submitEdit() {
+  // Implement the logic to save the edited employee details
+  var name = document.getElementById('editName').value;
+  var email = document.getElementById('editEmail').value;
+  var project = document.getElementById('editProject').value;
+  console.log(`Editing Employee: ${name}, Email: ${email}, Project: ${project}`);
+  // Close modal after submission
+  var editModal = bootstrap.Modal.getInstance(document.getElementById('editEmployeeModal'));
+  editModal.hide();
+}
+
+function showDeleteConfirmation(name) {
+  document.getElementById('employeeName').innerText = name;
+  var deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+  deleteModal.show();
+}
+
+function confirmDelete() {
+  // Implement the logic to delete the employee
+  console.log(`Deleting Employee: ${document.getElementById('employeeName').innerText}`);
+  // Close modal after confirmation
+  var deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
+  deleteModal.hide();
+}
 </script>
 </html>

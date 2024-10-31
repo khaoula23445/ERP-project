@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'erp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '',
+        'USER': 'root',
+        'PASSWORD': 'Khaoula2001',
+        'HOST': 'localhost',  # Or the IP address of your database server
+        'PORT': '3306',  # Default MySQL port
     }
 }
 
@@ -145,8 +149,4 @@ DATABASES = {
         'PORT': '3306',            # default MySQL port
     }
 }
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
 

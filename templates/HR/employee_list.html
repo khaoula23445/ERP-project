@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="{% static 'assets/css/fullcalendar.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
     <style>
+      .small-search {
+  width: 200px;
+}
+
         /* Center the toggle buttons in the middle of the page */
         .table-toggle-buttons {
           display: flex;
@@ -294,6 +298,12 @@
                     <table class="table">
                       <!-- Table structure (copy your existing table structure here) -->
                       <thead>
+                        <tr><!-- Search Bar Above the Table -->
+                          <div class="d-flex justify-content-between align-items-center mb-3">
+                          
+                            <input type="text" id="tableSearch" class="form-control form-control-sm small-search" placeholder="Search..." onkeyup="filterTable()" style="width: 200px;">
+                          </div>
+                          </tr>
                         <tr>
                           <th><h6>#</h6></th>
                           <th><h6>Nom</h6></th>
@@ -318,18 +328,17 @@
                           <td>
                             <div class="action">
                               <button class="text-danger">
-                                <i class="lni lni-trash-can"></i>
+                                  <i class="lni lni-trash-can"></i>
                               </button>
-                              <button">
-
-                             
-                              <span class="mdi mdi-pencil"></span>
-                            </button>
-                            <button">
-                            <span class="mdi mdi-dots-vertical"></span>
-                        </button>
-                            <button">
-                            </div>
+                              <button>
+                                  <span class="mdi mdi-pencil"></span>
+                              </button>
+                              <button>
+                                  <span class="mdi mdi-dots-vertical"></span>
+                              </button>
+                          </div>
+                          
+                          
                           </td>
                         </tr>
                         <!-- Add other rows similarly -->
@@ -346,18 +355,17 @@
                           <td>
                             <div class="action">
                               <button class="text-danger">
-                                <i class="lni lni-trash-can"></i>
+                                  <i class="lni lni-trash-can"></i>
                               </button>
-                              <button">
-
-                             
-                              <span class="mdi mdi-pencil"></span>
-                            </button>
-                            <button">
-                            <span class="mdi mdi-dots-vertical"></span>
-                        </button>
-                            <button">
-                            </div>
+                              <button>
+                                  <span class="mdi mdi-pencil"></span>
+                              </button>
+                              <button>
+                                  <span class="mdi mdi-dots-vertical"></span>
+                              </button>
+                          </div>
+                          
+                          
                           </td>
                         </tr>
                         <tr>
@@ -373,18 +381,16 @@
                           <td>
                             <div class="action">
                               <button class="text-danger">
-                                <i class="lni lni-trash-can"></i>
+                                  <i class="lni lni-trash-can"></i>
                               </button>
-                              <button">
-
-                             
-                              <span class="mdi mdi-pencil"></span>
-                            </button>
-                            <button">
-                            <span class="mdi mdi-dots-vertical"></span>
-                        </button>
-                            <button">
-                            </div>
+                              <button>
+                                  <span class="mdi mdi-pencil"></span>
+                              </button>
+                              <button>
+                                  <span class="mdi mdi-dots-vertical"></span>
+                              </button>
+                          </div>
+                          
                           </td>
                         </tr>
                         <tr>
@@ -400,18 +406,16 @@
                           <td>
                             <div class="action">
                               <button class="text-danger">
-                                <i class="lni lni-trash-can"></i>
+                                  <i class="lni lni-trash-can"></i>
                               </button>
-                              <button">
-
-                             
-                              <span class="mdi mdi-pencil"></span>
-                            </button>
-                            <button">
-                            <span class="mdi mdi-dots-vertical"></span>
-                        </button>
-                            <button">
-                            </div>
+                              <button>
+                                  <span class="mdi mdi-pencil"></span>
+                              </button>
+                              <button>
+                                  <span class="mdi mdi-dots-vertical"></span>
+                              </button>
+                          </div>
+                          
                           </td>
                         </tr>
                         <tr>
@@ -427,18 +431,16 @@
                           <td>
                             <div class="action">
                               <button class="text-danger">
-                                <i class="lni lni-trash-can"></i>
+                                  <i class="lni lni-trash-can"></i>
                               </button>
-                              <button">
-
-                             
-                              <span class="mdi mdi-pencil"></span>
-                            </button>
-                            <button">
-                            <span class="mdi mdi-dots-vertical"></span>
-                        </button>
-                            <button">
-                            </div>
+                              <button>
+                                  <span class="mdi mdi-pencil"></span>
+                              </button>
+                              <button>
+                                  <span class="mdi mdi-dots-vertical"></span>
+                              </button>
+                          </div>
+                          
                           </td>
                         </tr>
                         <tr>
@@ -454,18 +456,17 @@
                           <td>
                             <div class="action">
                               <button class="text-danger">
-                                <i class="lni lni-trash-can"></i>
+                                  <i class="lni lni-trash-can"></i>
                               </button>
-                              <button">
-
-                             
-                              <span class="mdi mdi-pencil"></span>
-                            </button>
-                            <button">
-                            <span class="mdi mdi-dots-vertical"></span>
-                        </button>
-                            <button">
-                            </div>
+                              <button>
+                                  <span class="mdi mdi-pencil"></span>
+                              </button>
+                              <button>
+                                  <span class="mdi mdi-dots-vertical"></span>
+                              </button>
+                          </div>
+                          
+                          
                           </td>
                         </tr>
                       </tbody>

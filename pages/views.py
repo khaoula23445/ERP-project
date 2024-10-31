@@ -9,4 +9,4 @@ def signup(request):
 def index(request):
     return render(request,'pages/index.html')
 def carde(request):
-    return render(request,'HR/employee_list.html')
+    return render(request,'HR/contrat_list.html')

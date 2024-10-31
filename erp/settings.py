@@ -122,7 +122,9 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-STATIC_URL = 'static/'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # SCSS Processing Configuration
 SASS_PROCESSOR_ENABLED = True
@@ -133,3 +135,18 @@ SASS_PROCESSOR_INCLUDE_DIRS = (os.path.join(BASE_DIR, 'static', 'scss'),)  # You
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'erp-publicity',  # Your database name
+        'USER': 'root',
+        'PASSWORD': 'Snds12345678',
+        'HOST': 'localhost',       # or the IP if hosted elsewhere
+        'PORT': '3306',            # default MySQL port
+    }
+}
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+

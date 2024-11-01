@@ -74,16 +74,7 @@ WSGI_APPLICATION = 'erp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': 'root',
-        'PASSWORD': 'Khaoula2001',
-        'HOST': 'localhost',  # Or the IP address of your database server
-        'PORT': '3306',  # Default MySQL port
-    }
-}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -144,7 +135,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'erp-publicity',  # Your database name
         'USER': 'root',
-        'PASSWORD': 'Snds12345678',
+        'PASSWORD': 'Khaoula2001',
         'HOST': 'localhost',       # or the IP if hosted elsewhere
         'PORT': '3306',            # default MySQL port
     }

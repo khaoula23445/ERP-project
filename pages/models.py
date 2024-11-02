@@ -250,7 +250,7 @@ class Employee(models.Model):
     lastname = models.CharField(max_length=45)
     birth_date = models.DateField(blank=True, null=True)
     adress = models.CharField(max_length=45)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=45)
     email = models.CharField(max_length=45)
     gendre = models.CharField(max_length=45, blank=True, null=True)
     situation = models.CharField(max_length=45, blank=True, null=True)

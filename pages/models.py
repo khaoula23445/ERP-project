@@ -9,7 +9,7 @@ from django.db import models
 
 
 class Admin(models.Model):
-    idadmin = models.IntegerField(primary_key=True)
+    idadmin = models.AutoField(primary_key=True)
     username = models.CharField(max_length=45)
     password = models.CharField(max_length=45)
     employee = models.ForeignKey('Employee', models.DO_NOTHING, db_column='employee', blank=True, null=True)
@@ -71,7 +71,7 @@ class AuthUser(models.Model):
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.IntegerField()
     username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
+    first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=150)
     email = models.CharField(max_length=254)
     is_staff = models.IntegerField()
@@ -169,7 +169,7 @@ class Clients(models.Model):
 
 
 class Conge(models.Model):
-    idconge = models.IntegerField(primary_key=True)
+    idconge = models.AutoField(primary_key=True)
     employee = models.ForeignKey('Employee', models.DO_NOTHING, blank=True, null=True)
     conge_type = models.CharField(max_length=45, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
@@ -184,7 +184,7 @@ class Conge(models.Model):
 
 
 class Contrat(models.Model):
-    idcontrat = models.IntegerField(primary_key=True)
+    idcontrat = models.AutoField(primary_key=True)
     employee = models.ForeignKey('Employee', models.DO_NOTHING)
     contrat_type = models.CharField(max_length=45)
     start_date = models.CharField(max_length=45, blank=True, null=True)
@@ -243,14 +243,14 @@ class DjangoSession(models.Model):
 
 
 class Employee(models.Model):
-    idemployee = models.IntegerField(primary_key=True)
+    idemployee = models.AutoField(primary_key=True)
     num_ss = models.IntegerField(db_column='num-ss')  # Field renamed to remove unsuitable characters.
     type = models.CharField(max_length=45)
     firstname = models.CharField(max_length=45)
     lastname = models.CharField(max_length=45)
     birth_date = models.DateField(blank=True, null=True)
     adress = models.CharField(max_length=45)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=45)
     email = models.CharField(max_length=45)
     gendre = models.CharField(max_length=45, blank=True, null=True)
     situation = models.CharField(max_length=45, blank=True, null=True)
@@ -310,7 +310,7 @@ class FinalInvoice(models.Model):
 
 
 class Fournisseur(models.Model):
-    idfournisseur = models.IntegerField(primary_key=True)
+    idfournisseur = models.AutoField(primary_key=True)
     firstname = models.CharField(max_length=45, blank=True, null=True)
     lastname = models.CharField(max_length=45, blank=True, null=True)
     phone = models.CharField(max_length=45, blank=True, null=True)
@@ -331,7 +331,7 @@ class Fournisseur(models.Model):
 
 
 class Lots(models.Model):
-    idlots = models.IntegerField(primary_key=True)
+    idlots = models.AutoField(primary_key=True)
     designation = models.CharField(max_length=45)
 
     class Meta:
@@ -340,7 +340,8 @@ class Lots(models.Model):
 
 
 class Manager(models.Model):
-    idmanager = models.OneToOneField(Employee, models.DO_NOTHING, db_column='idmanager', primary_key=True)
+    idmanager = models.AutoField(primary_key=True)
+    employer = models.ForeignKey(Employee, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -370,7 +371,7 @@ class Payrolls(models.Model):
 
 
 class Pointage(models.Model):
-    idpointage = models.IntegerField(primary_key=True)
+    idpointage = models.AutoField(primary_key=True)
     date = models.DateField(blank=True, null=True)
     employee_id = models.ForeignKey(Employee, models.DO_NOTHING, db_column='employee-id')  # Field renamed to remove unsuitable characters.
     check_in_time = models.TimeField(blank=True, null=True)
@@ -419,8 +420,8 @@ class ProjectTracking(models.Model):
 
 
 class ReviewEmployer(models.Model):
-    idreview_employer = models.OneToOneField(Employee, models.DO_NOTHING, db_column='idreview_employer', primary_key=True)
-    employee_id = models.IntegerField(blank=True, null=True)
+    idreview_employer = models.AutoField(primary_key=True)
+    employee = models.ForeignKey(Employee, models.DO_NOTHING, blank=True, null=True)
     review_date = models.DateField(blank=True, null=True)
     rating = models.CharField(max_length=45, blank=True, null=True)
     comment = models.CharField(max_length=45, blank=True, null=True)
@@ -431,7 +432,7 @@ class ReviewEmployer(models.Model):
 
 
 class Salary(models.Model):
-    idsalary = models.IntegerField(primary_key=True)
+    idsalary = models.AutoField(primary_key=True)
     employee = models.ForeignKey(Employee, models.DO_NOTHING, blank=True, null=True)
     base_salary = models.CharField(max_length=45, blank=True, null=True)
     net_salary = models.CharField(max_length=45, blank=True, null=True)
@@ -473,7 +474,7 @@ class SousTraitant(models.Model):
 
 
 class Users(models.Model):
-    idusers = models.IntegerField(primary_key=True)
+    idusers = models.AutoField(primary_key=True)
     username = models.CharField(max_length=45)
     password = models.CharField(max_length=45)
     user_type = models.CharField(max_length=45)

@@ -2,7 +2,7 @@
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
@@ -349,7 +349,7 @@ class Manager(models.Model):
 
 
 class Owner(models.Model):
-    idowner = models.OneToOneField('Users', models.DO_NOTHING, db_column='idowner', primary_key=True)
+    idowner = models.ForeignKey('Users', models.DO_NOTHING, db_column='idowner', primary_key=True)
 
     class Meta:
         managed = False
@@ -444,7 +444,7 @@ class Salary(models.Model):
 
 
 class Secretary(models.Model):
-    idsecretary = models.OneToOneField(Employee, models.DO_NOTHING, db_column='idsecretary', primary_key=True)
+    idsecretary = models.ForeignKey(Employee, models.DO_NOTHING, db_column='idsecretary', primary_key=True)
 
     class Meta:
         managed = False

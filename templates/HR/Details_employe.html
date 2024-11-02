@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Details | PlainAdmin Demo</title>
+
+  <!-- ========== All CSS files linkup ========== -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/lineicons.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/materialdesignicons.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/fullcalendar.css' %}" />
+  <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+
+  <style>
+    /* Custom Styles */
+    .card-style {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    .title-wrapper h2 {
+      font-size: 1.5rem;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+    h5.text-bold {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #365CF5;
+    }
+    .info-section p {
+      margin-bottom: 8px;
+      color: #555;
+    }
+    .info-section p strong {
+      color: #2c3e50;
+    }
+    .divider-line {
+      border-top: 1px solid #ddd;
+      margin: 20px 0;
+    }
+    .profile-photo {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+    
+      margin-bottom: 15px;
+      float: left; /* Align the photo to the left */
+      margin-right: 15px; /* Space between photo and text */
+    }
+  </style>
+</head>
+<body>
+  <!-- ======== Preloader =========== -->
+  <div id="preloader">
+    <div class="spinner"></div>
+  </div>
+  <!-- ======== Preloader =========== -->
+
+  <!-- ======== sidebar-nav start =========== -->
+  {% include 'pages/sidebar.html' %}
+  <div class="overlay"></div>
+  <!-- ======== sidebar-nav end =========== -->
+
+  <main class="main-wrapper">
+    <!-- ========== header start ========== -->
+    {% include 'pages/header.html' %}
+    <!-- ========== header end ========== -->
+
+ 
+    <section>
+      <div class="container-fluid">
+        <div class="title-wrapper pt-30 pb-4">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <h2>Employee Details</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Employee Information Card -->
+        <div class="card card-style mb-30 p-4">
+          <!-- Photo Section inside the Card -->
+          <div class="text-left mb-4">
+            {% if employee.photo %}
+              <img src="{{ employee.photo.url }}" alt="Employee Photo" class="profile-photo img-thumbnail">
+            {% else %}
+              <img src="{% static 'default_photo.png' %}" alt="Employee Photo" class="profile-photo img-thumbnail">
+            {% endif %}
+          </div>
+
+          <!-- Personal Information Section -->
+          <div class="info-section mb-4">
+            <h5 class="text-bold mb-3">
+              <i class="mdi mdi-account-circle mr-2"></i> Personal Information
+            </h5>
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>ID:</strong> {{ employee.idemployee }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>First Name:</strong> {{ employee.firstname }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Last Name:</strong> {{ employee.lastname }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Gender:</strong> {{ employee.gendre }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Birth Date:</strong> {{ employee.birth_date }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Birth Address:</strong> {{ employee.birth_address }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Social Security Number:</strong> {{ employee.num_ss }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider-line"></div>
+
+          <!-- Contact Information Section -->
+          <div class="info-section mb-4">
+            <h5 class="text-bold mb-3">
+              <i class="mdi mdi-phone mr-2"></i> Contact Information
+            </h5>
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>Address:</strong> {{ employee.adress }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Phone:</strong> {{ employee.phone }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Email:</strong> {{ employee.email }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider-line"></div>
+
+          <!-- Other Information Section -->
+          <div class="info-section">
+            <h5 class="text-bold mb-3">
+              <i class="mdi mdi-information-outline mr-2"></i> Other Information
+            </h5>
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>Marital Status:</strong> {{ employee.situation }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Number of Children:</strong> {{ employee.nbr_child }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Blood Type:</strong> {{ employee.blood_type }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>ID Card Number:</strong> {{ employee.num_carte }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Employee Information Card End -->
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ========= All Javascript files linkup ======== -->
+  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/js/Chart.min.js' %}"></script>
+  <script src="{% static 'assets/js/dynamic-pie-chart.js' %}"></script>
+  <script src="{% static 'assets/js/moment.min.js' %}"></script>
+  <script src="{% static 'assets/js/fullcalendar.js' %}"></script>
+  <script src="{% static 'assets/js/jvectormap.min.js' %}"></script>
+  <script src="{% static 'assets/js/world-merc.js' %}"></script>
+  <script src="{% static 'assets/js/polyfill.js' %}"></script>
+  <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+
+.modal-header {
+    /* Red background for header */
+    color: white; /* White text */
+}
+.modal-title {
+    font-size:1rem; /* Adjust the title size */
+}
+.modal-body {
+    font-size: 0.8rem; /* Smaller font size for body */
+}
+.modal-footer {
+    font-size: 0.5rem; /* Adjust footer text size */
+}
+.modal-footer .btn {
+  font-size:0.9rem;
+    padding: 8px 12px; /* Button padding */
+}
+.modal-content {
+  font-size:0.8rem;
+ 
+}
+.btn-danger {
+  font-size:1rem;
+    background-color: #d32f2f; /* Darker red */
+}
+.btn-danger:hover {
+    background-color: #c62828; /* Darker on hover */
+}

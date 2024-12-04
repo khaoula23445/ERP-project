@@ -3,10 +3,11 @@ import json
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Employee, Contrat
+from pages.models import Employee, Contrat
 from django.db import transaction
 
-
+from django.shortcuts import render # type: ignore
+from django.http import HttpResponse # type: ignore
 
 # Create your views here.
 def login(request):

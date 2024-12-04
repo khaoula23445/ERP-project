@@ -45,8 +45,8 @@
       margin: 20px 0;
     }
     .profile-photo {
-      width: 120px;
-      height: 120px;
+      width: 130px;
+      height: 130px;
       object-fit: cover;
     
       margin-bottom: 15px;
@@ -90,7 +90,7 @@
             {% if employee.photo %}
               <img src="{{ employee.photo.url }}" alt="Employee Photo" class="profile-photo img-thumbnail">
             {% else %}
-              <img src="{% static 'default_photo.png' %}" alt="Employee Photo" class="profile-photo img-thumbnail">
+              <img src="{% static 'C:\Users\NeonTech.DZ\Desktop\erp\erp\static\assets\images\profile\prfl.png' %}" alt="Employee Photo" class="profile-photo img-thumbnail">
             {% endif %}
           </div>
 
@@ -137,6 +137,9 @@
               </div>
               <div class="col-md-6">
                 <p><strong>Phone:</strong> {{ employee.phone }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><strong>Departement:</strong> {{ employee.departement}}</p>
               </div>
               <div class="col-md-6">
                 <p><strong>Email:</strong> {{ employee.email }}</p>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Salary List</h2>
+
+    <!-- List of Salaries -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee</th>
+                <th>Base Salary</th>
+                <th>Salary Type</th>
+                <th>Date Issued</th>
+                <th>Overtime Rate</th>
+                <th>Bonuses</th>
+                <th>Deductions</th>
+                <th>Salaire net</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salary in salaries %}
+                <tr>
+                    <td>{{ salary.idsalary }}</td>
+                    <td>{{ salary.employee.firstname }} {{ salary.employee.lastname }}</td>
+                    <td>{{ salary.base_salary }}</td>
+                    <td>{{ salary.salary_type }}</td>
+                    <td>{{ salary.date_issued }}</td>
+                    <td>{{ salary.overtime_rate }}</td>
+                    <td>{{ salary.bunuses }}</td>
+                    <td>{{ salary.deductions }}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="generatePayroll({{ salary.idsalary }})">Generate Payroll</button>
+                        {{ salary.total_salary }} DA <!-- Add actions for editing or viewing details here -->
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Button to trigger modal -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addSalaryModal">Add Salary</button>
+</div>
+
+<!-- Modal for Adding Salary -->
+<div class="modal" id="addSalaryModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Salary</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="salaryForm">
+                    <!-- Employee Selection -->
+                    <div class="form-group">
+                        <label for="employee">Employee:</label>
+                        <select id="employee" class="form-control">
+                            <option value="">Select Employee</option>
+                            {% for employee in employees %}
+                                <option value="{{ employee.idemployee }}">{{ employee.firstname }} {{ employee.lastname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="base_salary">Base Salary:</label>
+                        <input type="number" id="base_salary" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salary_type">Salary Type:</label>
+                        <input type="text" id="salary_type" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date_issued">Date Issued:</label>
+                        <input type="date" id="date_issued" class="form-control" required>
+                    </div>
+
+                    <button type="button" class="btn btn-success" onclick="submitSalary()">Submit Salary</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submitSalary() {
+        const employeeId = $('#employee').val();
+        const baseSalary = $('#base_salary').val();
+        const salaryType = $('#salary_type').val();
+        const dateIssued = $('#date_issued').val();
+
+        if (!employeeId || !baseSalary || !salaryType || !dateIssued) {
+            alert("Please fill all required fields.");
+            return;
+        }
+
+        // AJAX request to submit the form data
+        $.ajax({
+            url: '/add_salary/',  // URL for handling form submission
+            type: 'POST',
+            data: {
+                employee_id: employeeId,
+                base_salary: baseSalary,
+                salary_type: salaryType,
+                date_issued: dateIssued,
+                csrfmiddlewaretoken: '{{ csrf_token }}'  // CSRF token for security
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    alert('Salary added successfully!');
+                    $('#addSalaryModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Error adding salary: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);  // Log any error details
+                alert('Error adding salary.');
+            }
+        });
+    }
+    function generatePayroll(salaryId) {
+    // AJAX request to generate payroll
+    $.ajax({
+        url: '/generate_payroll/' + salaryId + '/',  // URL for generating payroll
+        type: 'GET',
+        success: function(response) {
+            if (response.status === 'success') {
+                alert('Payroll generated successfully!');
+                location.reload();  // Reload to show updated status
+            } else {
+                alert('Error generating payroll: ' + response.message);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr.responseText);  // Log any error details
+            alert('Error generating payroll.');
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>

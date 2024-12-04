@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
+    <title>Liste des employees</title>
+   
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+         th span {
+        font-weight: normal; /* Ensures the arrows are not bold */
+        font-size: 14px; /* Adjust the size if necessary */
+        margin-left: 5px; /* Adds some spacing between the column header and the arrow */
+    }
+      
+      .details-row .version-details {
+        padding: 10px; background: #f9f9f9; border-left: 3px solid #007bff;
+      }
+      
+    </style>
+  <style>
+    .modal-content {
+        width: 90%; /* Set the width of the modal */
+        max-width: 1000px; /* Limit maximum width */
+    }
+   
+    .form-label {
+      color: #1A2142;;
+    font-weight:500;
+    font-size: smaller;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    }
+
+    
+
+    .row.mb-3 {
+        margin-bottom: 1rem; /* Reduced space to manage height */
+    }
+  
+</style>
+  </style>
+    <!-- ========== All CSS files linkup ========= -->
+    {% load static %}
+<!-- Bootstrap JavaScript Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6oB8mMQIP1XumxWxF0VS+zY+Lsrl6hW6JARw/s8XKek5tP1Lcv7" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/lineicons.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/materialdesignicons.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/fullcalendar.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/popup.css' %}" />
+    <style>
+      .dropdown-text {
+    font-size: 13px; /* Change the font size as needed */
+    padding: 0; /* Adjust padding if necessary */
+    margin: 0; /* Adjust margin if necessary */
+}
+
+   .table thead th,
+.table tbody td {
+    text-align: center; /* Center-aligns text within <th> and <td> elements */
+}
+
+.table thead th h6 {
+    margin: 0;
+}
+      .small-search {
+  width: 200px;
+}
+
+
+
+        /* Center the toggle buttons in the middle of the page */
+        .table-toggle-buttons {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 20px;
+        }
+    
+        .centered-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+    
+        .custom-button {
+          font-size: 14px;
+          padding: 8px 16px;
+        }
+      </style>
+  </head>
+  <body>
+    <!-- ======== Preloader =========== -->
+    <div id="preloader">
+      <div class="spinner"></div>
+    </div>
+    <!-- ======== Preloader =========== -->
+
+    <!-- ======== sidebar-nav start =========== -->
+    {% include 'HR/sidebar.html' %}
+    <div class="overlay"></div>
+    <!-- ======== sidebar-nav end =========== -->
+
+    <main class="main-wrapper">
+      <!-- ========== header start ========== -->
+      {% include 'pages/header.html' %}
+      <!-- ========== header end ========== -->
+
+   
+ 
+      <!-- ========== table components start ========== -->
+      <section class="table-components">
+        <div class="container-fluid">
+          <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+              <div class="col-md-6">
+                <div class="title">
+                  <h2>Tables</h2>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="breadcrumb-wrapper">
+                  <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a href="#0">Dashboard</a>
+                      </li>
+                      <li class="breadcrumb-item active" aria-current="page">
+                        Tables
+                      </li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+    
+      
+          <!-- Table 1 -->
+          <div id="table1" class="tables-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-style mb-30">
+                        <div class="d-flex justify-content-between align-items-center mb-10">
+                            <h6>historique de pointage</h6>
+                           
+                        </div>
+                        <div class="table-wrapper table-responsive">
+                            {% if history_records %}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+    <form method="GET" action="{% url 'attendance_history' %}" class="form-inline mb-3">
+        <div class="d-flex align-items-center gap-2">
+            <label for="year" class="mb-0" style="margin-right: 5px;">Year:</label>
+            <input type="number" name="year" id="year" class="form-control form-control-sm small-search" placeholder="e.g., 2024" min="2000" style="width: 150px; margin-right: 10px;">
+            
+            <label for="month" class="mb-0" style="margin-right: 5px;">Month:</label>
+            <input type="number" name="month" id="month" class="form-control form-control-sm small-search" placeholder="1-12" min="1" max="12" style="width: 150px; margin-right: 10px;">
+            
+            <label for="day" class="mb-0" style="margin-right: 5px;">Date:</label>
+            <input type="date" name="day" id="day" class="form-control form-control-sm small-search" style="width: 150px; margin-right: 10px;">
+            
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </form>
+</div>
+
+                                    </tr>
+                                    <th onclick="sortTable(0)">
+                                        <h6>Employee Name <span id="name-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(1)">
+                                        <h6>Date<span id="ssn-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(2)">
+                                        <h6>Check-in Time <span id="phone-sort">↓↑</span></h6>
+                                    </th>
+                                  
+                                    <th onclick="sortTable(3)">
+                                        <h6>Check-out Time<span id="dob-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(4)">
+                                        <h6>Status <span id="pob-sort">↓↑</span></h6>
+                                    </th>
+                                  
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop for each employee -->
+                                    {% for record in history_records %}
+                            <tr {% if record.status == 'absent' %}class="table-danger"{% endif %}>
+                                <td><p>{{ record.employee_id.firstname }} {{ record.employee_id.lastname }}</p></td>
+                                <td><p>{{ record.date }}</p></td>
+                                <td><p>{{ record.check_in_time }}</p></td>
+                                <td><p>{{ record.check_out_time }}</p></td>
+                             
+                                <td><p>   <span 
+                                  class="status-btn" 
+                                  style="
+                                      color: #ffffff; 
+                                      padding: 7px 15px; 
+                                      border-radius: 30px; 
+                                      font-size: 14px; 
+                                      font-weight: 400;
+                                      background: 
+                                      {% if  record.status == 'absent' %} 
+                                      #FF737E
+                                      {% else %} 
+                                      #65c98b
+                                      {% endif %}
+                                  ">
+                                 {{ record.status|title }} 
+                              </span> </p></td>
+                            </tr>
+                            {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                    <p class="text-muted">No records found for the selected period.</p>
+                {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+
+      
+
+
+       
+        </div>
+      </section>
+      
+      <!-- ========== table components end ========== -->
+
+      <!-- ========== footer start =========== -->
+  
+      <!-- ========== footer end =========== -->
+    </main>
+    <!-- ======== main-wrapper end =========== -->
+
+    <!-- ========= All Javascript files linkup ======== -->
+    <script>let sortOrder = {}; // To track sorting state for each column
+
+      function sortTable(columnIndex) {
+          const table = document.querySelector('table tbody');
+          const rows = Array.from(table.rows);
+          const header = table.previousElementSibling.querySelectorAll('th');
+          const icon = header[columnIndex].querySelector('span'); // Get the span for the clicked column
+      
+          const currentOrder = sortOrder[columnIndex] || 'asc'; // Default to ascending
+      
+          // Toggle sort order for the next click
+          sortOrder[columnIndex] = currentOrder === 'asc' ? 'desc' : 'asc';
+      
+          // Sort the rows
+          rows.sort((a, b) => {
+              const cellA = a.cells[columnIndex].textContent.trim();
+              const cellB = b.cells[columnIndex].textContent.trim();
+      
+              let comparison = 0;
+      
+              // Number comparison for salary and id columns (if needed)
+              if (columnIndex === 4 || columnIndex === 0) {
+                  comparison = parseFloat(cellA) - parseFloat(cellB);
+              } else {
+                  comparison = cellA.localeCompare(cellB);
+              }
+      
+              return currentOrder === 'asc' ? comparison : -comparison;
+          });
+      
+          // Reorder the rows in the table
+          rows.forEach(row => table.appendChild(row));
+      
+          // Update the sorting icons
+          resetSortingIcons(); // Reset all icons
+          icon.innerHTML = currentOrder === 'asc' ? '↑' : '↓'; // Show the correct icon for the clicked column
+      }
+      
+      function resetSortingIcons() {
+          // Clear all sorting icons
+          const icons = document.querySelectorAll('th span');
+          icons.forEach(icon => icon.innerHTML = '↓↑'); // Reset all icons to the default '↓↑'
+      }
+      
+      </script>
+      <script>function filterTable() {
+          // Get the input value
+          let filter = document.getElementById("tableSearch2").value.toLowerCase();
+          // Get the table rows
+          let rows = document.querySelectorAll("#table2 tbody tr");
+      
+          // Loop through the rows and hide those that don't match the filter
+          rows.forEach(function(row) {
+              let cells = row.querySelectorAll("td");
+              let rowText = "";
+              
+              // Concatenate text from each cell in the row
+              cells.forEach(function(cell) {
+                  rowText += cell.textContent.toLowerCase();
+              });
+      
+              // If the row's text content matches the filter, show the row, otherwise hide it
+              if (rowText.indexOf(filter) > -1) {
+                  row.style.display = "";
+              } else {
+                  row.style.display = "none";
+              }
+          });
+      }
+      </script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/Chart.min.js' %}"></script>
+    <script src="{% static 'assets/js/dynamic-pie-chart.js' %}"></script>
+    <script src="{% static 'assets/js/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/fullcalendar.js' %}"></script>
+    <script src="{% static 'assets/js/jvectormap.min.js' %}"></script>
+    <script src="{% static 'assets/js/world-merc.js' %}"></script>
+    <script src="{% static 'assets/js/polyfill.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+
+
+</html>

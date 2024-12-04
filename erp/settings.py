@@ -135,7 +135,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'erp-publicity',  # Your database name
         'USER': 'root',
-        'PASSWORD': 'Snds12345678',
+        'PASSWORD': 'Khaoula2001',
         'HOST': 'localhost',       # or the IP if hosted elsewhere
         'PORT': '3306',            # default MySQL port
     }

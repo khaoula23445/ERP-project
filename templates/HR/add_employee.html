@@ -12,7 +12,45 @@
      <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/12.1.2/css/intlTelInput.css'>
      <link rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
      <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css'><link rel="stylesheet" href="./style.css">
-     
+     <style>
+        #progressbar {
+          display: flex;
+          list-style: none;
+          justify-content: space-between;
+          padding: 0; /* Remove default padding */
+          margin: 0;  /* Remove default margin */
+        }
+      
+        #progressbar li {
+          flex: 1; /* Each item gets equal space */
+          text-align: center;
+        
+          position: relative;
+          cursor: pointer;
+          font-size: 14px;
+          line-height: 1.5;
+        }
+      
+        #progressbar li:before {
+          content: '';
+          width: 10px;
+          height: 10px;
+          background-color: #ddd;
+          border-radius: 50%;
+          display: block;
+          margin: 0 auto 5px auto;
+        }
+      
+        #progressbar li.active:before {
+          background-color: #007bff;
+        }
+      
+        #progressbar li.active {
+          color: #007bff;
+          font-weight: bold;
+        }
+      </style>
+      
     <!-- ========== All CSS files linkup ========= -->
     {% load static %}
 
@@ -46,6 +84,7 @@
                    
                 </div>
                 <section class="multi_step_form">  
+                  
                     <form id="msform" method="POST" enctype="multipart/form-data"> 
                         {% csrf_token %}
                         {% if error %}
@@ -59,6 +98,7 @@
                             <li class="active">informations personnelles</li>  
                             <li>informations personnelles</li> 
                             <li>information de contrat</li>
+                            <li>Résumé et Confirmation</li> 
                         </ul>
                 
                         <fieldset>
@@ -115,13 +155,13 @@
                                 </div>  
                                
                             </div> 
-                            <button type="button" class="action-button previous_button">Back</button>
-                            <button type="button" class="next action-button">Continue</button>  
+                            <button type="button" class="previous action-button">Retour</button>
+                            <button type="button" class="next action-button">Continuer</button>  
                         </fieldset>
                 
                         <fieldset>
-                            <h3>Informations de Santé</h3>
-                            <h6>Veuillez saisir vos informations de santé.</h6>
+                            <h3>Informations personnelles.</h3>
+                            <h6>Veuillez saisir vos informations personnelles.</h6>
                             <div class="form-row"> 
                                 <div class="form-group col-md-6"> 
                                     <label for="nbr_child">Nombre d'enfants</label>
@@ -159,6 +199,7 @@
                                     <input type="text" name="num_carte" class="form-control" id="num_carte" placeholder="Numéro de la carte" required>
                                 </div> 
                                
+                                   
                                 <div class="form-group col-md-6">  
                                     <label for="num_carte">Type</label>
                                     <select name="type" class="product_select" id="contrat_type" required>
@@ -168,15 +209,25 @@
                                         <option value="Admin">Admin</option> 
                                     </select>
                                 </div> 
+                               
+                                    <div class="form-group col-md-6"> 
+                                        <label for="num_carte">role</label>
+                                        <input type="role" name="role" class="form-control" id="role" placeholder="role" required>
+                                    </div>
+                                <div class="form-group col-md-6">  
+                                    <label for="num_carte">departement</label>
+                                    <select name="departement" class="product_select" id="departement" required>
+                                        <option value="" disabled selected>Type de departement</option>
+                                        <option value="Marketing">Marketing</option> 
+                                        <option value="TI">TI</option> 
+                                        <option value="Production">Production</option> 
+                                    </select>
+                                    
+                                </div> 
+                                
                             </div>
-                            <div class="input-group"> 
-                                <div class="custom-file">
-                                    <label class="custom-file-label" for="upload"><i class="ion-android-cloud-outline"></i>Choisir fichier</label>
-                                    <input type="file" name="photo" class="custom-file-input" id="upload" required>
-                                </div>
-                            </div>
-                            <button type="button" class="action-button previous previous_button">Back</button>
-                            <button type="button" class="next action-button">Continue</button>  
+                            <button type="button" class="previous action-button">Retour</button>
+                            <button type="button" class="next action-button">Continuer</button>  
                         </fieldset>  
                 
                         <fieldset>
@@ -187,8 +238,15 @@
                                     <label for="contrat_type">Type de contrat</label>
                                     <select name="contrat_type" class="product_select" id="contrat_type" required>
                                         <option value="" disabled selected>Choisir le type de contrat</option>
-                                        <option value="Manager">CDI</option> 
-                                        <option value="Secretaire">CDD</option> 
+                                        <option value="CDI">CDI</option> 
+                                        <option value="CDD">CDD</option> 
+                                        <option value="Contrat d'Apprentissage">Contrat d'Apprentissage</option>
+                                        <option value="Contrat de Professionnalisation">Contrat de Professionnalisation</option> 
+                                        <option value="Contrat à Temps Partiel">Contrat à Temps Partiel</option> 
+                                        <option value="Contrat d'Intérim">Contrat d'Intérim</option> 
+                                        <option value="Contrat de Stage">Contrat de Stage  </option> 
+                                        <option value="Contrat d'Insertion">Contrat d'Insertion </option> 
+                        
                                     </select>
                                 </div> 
                                 <div class="form-group col-md-6">  
@@ -211,18 +269,81 @@
                                     <label for="status">Statut</label>
                                     <select name="status" class="product_select" id="status" required>
                                         <option value="" disabled selected>Statut</option>
-                                        <option value="active">Actif</option> 
-                                        <option value="inactive">Inactif</option> 
+                                        <option value="active">Active</option> 
+                                        <option value="inactive">Inactive</option> 
                                     </select>
                                 </div>  
                                 <div class="form-group col-md-6">  
-                                    <label for="function">Fonction</label>
-                                    <input type="text" name="function" class="form-control" id="function" placeholder="Fonction" required>
-                                </div>  
+                                    <label for="function">intitulé du poste</label>
+                                    <input type="job_title" name="job_title" class="form-control" id="job_title" placeholder="intitulé du poste" required>
+                                </div>
+                            
+                                
                             </div>
-                            <button type="button" class="action-button previous previous_button">Back</button>
-                            <button type="submit" class="action-button">Submit</button>  
+                            <button type="button" class="previous action-button">Retour</button>
+                            <button type="button" class="next action-button">Continuer</button>  
+                 
                         </fieldset>  
+                        <fieldset>
+                            <h3>Résumé et Confirmation</h3>
+                            <h6>Vérifiez les informations saisies et confirmez.</h6>
+                            <div class="form-row"> 
+                            <div class="form-group col-md-6">  
+                                <label for="function">lieu de travail</label>
+                                <input type="text" name="work_location" class="form-control" id="work_location" placeholder="lieu de travail" required>
+                            </div> 
+                            <div class="form-group col-md-6">  
+                                <label for="function">heures de travail</label>
+                                <input type="text" name="work_hours" class="form-control" id="work_hours" placeholder="heures de travail" required>
+                            </div> 
+                            <div class="form-group col-md-6">
+                                <label for="contrat_terms">Conditions du contrat</label>
+                                <textarea name="contrat_terms" class="form-control" id="contrat_terms" placeholder="Conditions du contrat" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group col-md-6">  
+                                <label for="function">créé le</label>
+                                <input type="date" name="created_at" class="form-control" id="created_at" placeholder="créé le" required>
+                            </div> 
+                            </div>
+                            <button type="button" class="previous action-button">Retour</button>
+                            <button type="button" class="next action-button">Continuer</button>  
+                 
+                        </fieldset>
+
+
+                        <fieldset>
+                            <h3>Résumé et Confirmation</h3>
+                            <h6>Vérifiez les informations saisies et confirmez.</h6>
+
+                            <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Associer un Utilisateur?</label><br>
+                                <input type="radio" id="associate_user_yes" name="associate_user" value="yes" onchange="toggleUserFields()" required>
+                                <label for="associate_user_yes">Oui</label>
+                                <input type="radio" id="associate_user_no" name="associate_user" value="no" onchange="toggleUserFields()">
+                                <label for="associate_user_no">Non</label>
+                            </div>
+                            </div>
+                            <div id="user_fields" style="display: none;">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="username">surnom</label>
+                                        <input type="text" name="username" class="form-control" id="username" placeholder="Username">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="user_type">Type</label>
+                                        <input type="text" name="user_type" class="form-control" id="user_type" placeholder="User Type">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="user_type">mot de passe</label>
+                                        <input type="password" name="password" class="form-control" id="password" placeholder="password">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="previous action-button">Retour</button>
+                            <button type="submit" class="action-button">Entrer</button>  
+                        </fieldset>
                     </form>  
                 </section>
                 
@@ -373,6 +494,16 @@
       verificationForm ();
       phoneNoselect ();
       nice_Select ();
-  })(jQuery);</script>
+  })(jQuery);
+  
+  
+  </script>
+  <script>
+    function toggleUserFields() {
+        const associateUserYes = document.getElementById('associate_user_yes').checked;
+        const userFields = document.getElementById('user_fields');
+        userFields.style.display = associateUserYes ? 'block' : 'none';
+    }
+</script>
   </body>
 </html> 

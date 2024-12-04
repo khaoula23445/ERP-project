@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche de Paie</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 210mm; /* A4 width */
+            height: 297mm; /* A4 height */
+            margin: 0 auto;
+            padding: 20mm;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        /* Print-Specific Styling */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: #fff;
+            }
+            .container {
+                border: none;
+                width: auto;
+                height: auto;
+                padding: 20mm;
+            }
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #333;
+        }
+        .header p {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+        .header .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            background: #f4f4f4;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        /* Tables */
+        .details-table, .salary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .details-table td, .salary-table td, .salary-table th {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+        }
+        .details-table td {
+            font-size: 12px;
+        }
+        .salary-table th {
+            background: #f4f4f4;
+            font-weight: bold;
+            text-align: center;
+        }
+        .salary-table td {
+            text-align: right;
+        }
+
+        /* Net Salary Section */
+        .net-pay {
+            font-weight: bold;
+            text-align: right;
+            padding-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="company-name">Entreprise XYZ</div>
+            <p>Rue des Exemples, Alger</p>
+            <p>Téléphone: +213 123 456 789 | Email: contact@entreprise.xyz</p>
+        </div>
+
+        <!-- Employee Details -->
+        <div class="section">
+            <div class="section-title">Informations Employé</div>
+            <table class="details-table">
+                <tr>
+                    <td><strong>Nom:</strong></td>
+                    <td>{{ employee.firstname }} {{ employee.lastname }}</td>
+                    <td><strong>Matricule:</strong></td>
+                    <td>{{ employee.matricule }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Période:</strong></td>
+                    <td>{{ payroll.pay_period_start }} au {{ payroll.pay_period_end }}</td>
+                    <td><strong>Date de paiement:</strong></td>
+                    <td>{{ payroll.pay_date }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Poste:</strong></td>
+                    <td>{{ employee.position }}</td>
+                    <td><strong>Service:</strong></td>
+                    <td>{{ employee.department }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Salary Breakdown -->
+        <div class="section">
+            <div class="section-title">Détails de la Rémunération</div>
+            <table class="salary-table">
+                <thead>
+                    <tr>
+                        <th>Libellé</th>
+                        <th>Montant (DA)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Salaire de base</td>
+                        <td>{{ payroll.regular_pay }}</td>
+                    </tr>
+                    <tr>
+                        <td>Heures supplémentaires</td>
+                        <td>{{ payroll.overtime_pay }}</td>
+                    </tr>
+                    <tr>
+                        <td>Prime</td>
+                        <td>{{ payroll.bonuses }}</td>
+                    </tr>
+                    <tr>
+                        <td>Retenues (Absences)</td>
+                        <td>-{{ payroll.deductions }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Net Salary -->
+        <div class="net-pay">
+            Salaire Net à Payer: <strong>{{ payroll.net_pay }} DA</strong>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Contrat de Travail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        p {
+            margin: 10px 0;
+        }
+        .signature {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contrat de Travail</h1>
+    
+    <div class="section">
+        <p>Entre les soussignés :</p>
+        <p><strong>Nom de l'Employeur :</strong> {{ contract.employee.firstname }} {{ contract.employee.lastname }}</p>
+        <p><strong>Adresse de l'Employeur :</strong>{{ contract.employee.Adres}} </p>
+    </div>
+
+    <div class="section">
+
+        <p><strong>Nom de l'Employé :</strong> {{ contract.employee.firstname }} {{ contract.employee.lastname }}</p>
+        <p><strong>Adresse de l'Employé :</strong> [Adresse de l'Employé]</p>
+        <p><strong>Date de Naissance :</strong> {{ contract.employee.birth_date }}</p>
+        <p><strong>Numéro de Sécurité Sociale :</strong> {{ contract.employee.num_ss }}</p>
+    </div>
+    
+    <div class="section">
+        <p>Il est convenu ce qui suit :</p>
+
+        <p>Le présent contrat est établi afin de définir les conditions d'emploi de l'employé au sein de l'entreprise. L'employé est engagé en tant que {{ contract.function }}. Ce contrat est un contrat de travail {{ contract.contrat_type }}. Il commence le {{ contract.start_date }} et prendra fin le {{ contract.end_date }}.</p>
+
+        <p>L'employé recevra un salaire brut de {{ contract.salary_amount }} par mois, payable à la fin de chaque mois. Les horaires de travail seront de {{ contract.hours_per_week }} heures par semaine, réparties sur {{ contract.working_days }} jours. L'employé aura droit à {{ contract.annual_leave }} jours de congés payés par an.</p>
+
+        <p>L'employé s'engage à garder confidentielles toutes les informations relatives à l'entreprise. Chaque partie peut mettre fin au contrat avec un préavis de {{ contract.notice_period }} jours.</p>
+
+        <p>Ce contrat est régi par la législation en vigueur dans l'algerie , constantine. </p>
+    </div>
+
+    <div class="signature">
+       
+        <p><strong>Fait à :</strong> ______________________________</p>
+        <p><strong>le :</strong> ______________________________</p>
+        <p><strong>Signature de l'Employeur :</strong> ______________________________</p>
+        <p><strong>Signature de l'Employé :</strong> ______________________________</p>
+    </div>
+</body>
+</html>

@@ -5,10 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon" />
-    <title>Tables | PlainAdmin Demo</title>
+    <title>Liste des employees</title>
    
-  
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
+         th span {
+        font-weight: normal; /* Ensures the arrows are not bold */
+        font-size: 14px; /* Adjust the size if necessary */
+        margin-left: 5px; /* Adds some spacing between the column header and the arrow */
+    }
       
       .details-row .version-details {
         padding: 10px; background: #f9f9f9; border-left: 3px solid #007bff;
@@ -42,6 +48,8 @@
     {% load static %}
 <!-- Bootstrap JavaScript Bundle (includes Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6oB8mMQIP1XumxWxF0VS+zY+Lsrl6hW6JARw/s8XKek5tP1Lcv7" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/css/lineicons.css' %}" />
@@ -67,10 +75,7 @@
       .small-search {
   width: 200px;
 }
-.dropdown-menu-small {
-    min-width: 100px; /* Adjust this value to your desired width */
-    max-width: 130px; /* Optionally, set a max-width */
-}
+
 
 
         /* Center the toggle buttons in the middle of the page */
@@ -103,7 +108,7 @@
     <!-- ======== Preloader =========== -->
 
     <!-- ======== sidebar-nav start =========== -->
-    {% include 'pages/sidebar.html' %}
+    {% include 'HR/sidebar.html' %}
     <div class="overlay"></div>
     <!-- ======== sidebar-nav end =========== -->
 
@@ -153,223 +158,447 @@
                 <div class="col-lg-12">
                     <div class="card-style mb-30">
                         <div class="d-flex justify-content-between align-items-center mb-10">
-                            <h6>Data Table 1</h6>
+                            <h6>Employee</h6>
                             <button id="menu-toggle" class="main-btn primary-btn btn-hover custom-button" onclick="window.location.href='{% url 'add_employee' %}'">
-                              <i class="lni lni-plus me-2"></i> Ajouter Employé
-                          </button>
-                          
-                          
+                                <i class="lni lni-plus me-2"></i> Ajouter Employé
+                            </button>
                         </div>
                         <div class="table-wrapper table-responsive">
-                          <table class="table">
-                            <thead>
-                                <tr>
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <input type="text" id="tableSearch" class="form-control form-control-sm small-search" placeholder="Search..." onkeyup="filterTable()" style="width: 200px;">
-                                    </div>
-                                </tr>
-                                <tr>
-                                  <th><h6>id</h6></th>
-                                    <th><h6>Employe</h6></th>
-                                    <th><h6>securite sociale</h6></th>
-                                    <th><h6>telephone</h6></th>
-                                    <th><h6>Salaire</h6></th>
-                                    <th><h6>Date de naissance</h6></th>
-                                    <th><h6>Lieu de naissance</h6></th>
-                                    <th><h6>Status</h6></th>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <input type="text" id="tableSearch" class="form-control form-control-sm small-search" placeholder="Search..." onkeyup="filterTable()" style="width: 200px;">
+                                        </div>
+                                    </tr>
+                                    <th onclick="sortTable(0)">
+                                        <h6>Employe <span id="name-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(1)">
+                                        <h6>securite sociale <span id="ssn-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(2)">
+                                        <h6>telephone <span id="phone-sort">↓↑</span></h6>
+                                    </th>
+                                  
+                                    <th onclick="sortTable(3)">
+                                        <h6>Date de naissance <span id="dob-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(4)">
+                                        <h6>Lieu de naissance <span id="pob-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(5)">
+                                        <h6>Status <span id="status-sort">↓↑</span></h6>
+                                    </th>
+                                    <th onclick="sortTable(6)">
+                                        <h6>department <span id="dept-sort">↓↑</span></h6>
+                                    </th>
                                     <th><h6>Actions</h6></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Loop for each employee -->
-                                {% for employee in active_employees %}
-                                <tr>
-                                 
-                                  <td class="min-width"><p>{{ employee.id}}</p></td>
-                                    <td class="min-width"><p>{{ employee.firstname }} {{ employee.lastname }}</p></td>
-                                    <td class="min-width"><p>{{ employee.numss }}</p></td>
-                                    <td class="min-width"><p>{{ employee.phone }}</p></td>
-                                    <td class="min-width"><p>{{ employee.salary_amount }}</p></td>
-                                    <td class="min-width"><p>{{ employee.birth_date }}</p></td>
-                                    <td class="min-width"><p>{{ employee.birth_address}}</p></td>
-                                    <td class="min-width"><span class="status-btn active-btn">{{ employee.status }}</span></td>
-                                    <td class="min-width">
-                                      <div class="dropdown">
-                                          <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                              <span class="mdi mdi-dots-vertical"></span>
-                                          </button>
-                                          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                            <li>
-                                                <button class="dropdown-item text-danger d-flex align-items-center" onclick="showDeleteConfirmation('Esther Howard')">
-                                                    <span class="dropdown-text">Delete</span>
-                                                    <i class="lni lni-trash-can icon-spacing ms-auto"></i>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button class="dropdown-item d-flex align-items-center" onclick="showLeaveConfirmation('Esther Howard')">
-                                                    <span class="dropdown-text">quitter </span>
-                                                    <span class="mdi mdi-export icon-spacing ms-auto"></span>
-                                                </button>
-                                            </li>
-                                            <li>
-                                              <a href="{% url 'employee_details' employee_id=employee.id %}" class="dropdown-item d-flex align-items-center">
-                                                <span class="dropdown-text">details</span>
-                                                <span class="mdi mdi-export icon-spacing ms-auto"></span>
-                                            </a>
-                                          </li>
-                                              <button class="dropdown-item d-flex align-items-center" 
-    onclick="openEditModal({
-        id: '{{ employee.id }}', 
-        num_ss: '{{ employee.numss }}',
-        type: '{{ employee.type }}',
-        firstname: '{{ employee.firstname }}', 
-        lastname: '{{ employee.lastname }}', 
-        birth_date: '{{ employee.birth_date }}',
-        adress: '{{ employee.adress }}',
-        phone: '{{ employee.phone }}',
-        email: '{{ employee.email }}',
-        gendre: '{{ employee.gendre }}',
-        situation: '{{ employee.situation }}',
-        nbr_child: '{{ employee.nbr_child }}',
-        blood_type: '{{ employee.blood_type }}',
-        birth_address: '{{ employee.birth_address  }}',
-        num_carte: '{{ employee.num_carte }}',
-       
-        salary_amount: '{{ employee.salary_amount }}', 
-        status: '{{ employee.status }}'
-    })"
->
-    <span class="dropdown-text">Modifier</span>
-    <span class="mdi mdi-pencil icon-spacing ms-auto"></span>
-</button>
-
-                                          
-                                            </li>
-                                        </ul>
-                                        
-                                      </div>
-                                  </td>
-                                  
-                                  
-                               
-                                  
                                     
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop for each employee -->
+                                    {% for employee in active_employees %}
+                                    <tr>
+                                       
+                                        <td class="min-width"><p>{{ employee.firstname }} {{ employee.lastname }}</p></td>
+                                        <td class="min-width"><p>{{ employee.numss }}</p></td>
+                                        <td class="min-width"><p>{{ employee.phone }}</p></td>
+                                       
+                                        <td class="min-width"><p>{{ employee.birth_date }}</p></td>
+                                        <td class="min-width"><p>{{ employee.birth_address}}<p></td>
+                                        <td class="min-width"><span style="color: #ffffff;
+                                            background: rgb(60, 179, 113);
+                    
+                                            padding: 7px 15px;
+                                            border-radius: 30px;
+                                            font-size: 14px;
+                                            font-weight: 400;
+                                        ">{{ employee.status }}</span></td>
+                                        <td class="min-width"><p>{{ employee.departement}}</p></td>
+                                        
+                                        <td class="min-width">
+                                          
+                                            <span class="icon" onclick="toggleDropdown(event)">
+                                                <span class="mdi mdi-dots-vertical"></span><!-- 3-dot icon -->
+                                              </span>
+                                        
+                                            <div class="dropdown-menu" style="right: 0; left: auto;">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <button class="dropdown-item text-danger d-flex align-items-center" onclick="showDeleteConfirmation({{ employee.id }})">
+                                                            <span class="dropdown-text">Delete</span>
+                                                            <i class="lni lni-trash-can icon-spacing ms-auto"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" onclick="showLeaveConfirmation('{{ employee.firstname }} {{ employee.lastname }}', {{ employee.id }})">
+                                                            <span class="dropdown-text">Quitter</span>
+                                                            <span class="mdi mdi-logout icon-spacing ms-auto" ></span>
+
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{% url 'employee_details' employee_id=employee.id %}" class="dropdown-item d-flex align-items-center">
+                                                            <span class="dropdown-text">Details</span>
+                                                            <span class="mdi mdi-eye icon-spacing ms-auto"></span>
+                                                        </a>
+                                                    </li>
+                                                
+                                                   
+                                                    
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" 
+                                                            onclick="openEditModal({
+                                                                id: '{{ employee.id }}', 
+                                                                num_ss: '{{ employee.numss }}',
+                                                                type: '{{ employee.type }}',
+                                                                firstname: '{{ employee.firstname }}', 
+                                                                lastname: '{{ employee.lastname }}', 
+                                                                birth_date: '{{ employee.birth_date }}',
+                                                                adress: '{{ employee.adress }}',
+                                                                phone: '{{ employee.phone }}',
+                                                                email: '{{ employee.email }}',
+                                                                gendre: '{{ employee.gendre }}',
+                                                                situation: '{{ employee.situation }}',
+                                                                nbr_child: '{{ employee.nbr_child }}',
+                                                                blood_type: '{{ employee.blood_type }}',
+                                                                birth_address: '{{ employee.birth_address  }}',
+                                                                num_carte: '{{ employee.num_carte }}',
+                                                                salary_amount: '{{ employee.salary_amount }}', 
+                                                                departement: '{{ employee.departement }}',
+                                                                status: '{{ employee.status }}'
+                                                            })">
+                                                            <span class="dropdown-text">Modifier</span>
+                                                            <span class="mdi mdi-pencil icon-spacing ms-auto"></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg"> <!-- Use modal-lg for a wider modal -->
-              <div class="modal-content">
-                  <form id="editEmployeeForm" method="post" action="{% url 'edit_employee' %}">
-                      {% csrf_token %}
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="editEmployeeModalLabel">Edit Employee</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                          <input type="hidden" name="id" id="employeeId">
-                          <div class="row mb-3">
-                              <div class="col-md-3">
-                                  <label for="num_ss" class="form-label">Numero de securite sociale</label>
-                                  <input type="number" class="form-control input-small-text" id="num_ss" name="num_ss" style="font-size: 14px;" required>
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="type" class="form-label">Type</label>
-                                  <input type="text" class="form-control input-small-text" id="type" name="type" style="font-size: 14px;" required>
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="firstname" class="form-label">Nom</label>
-                                  <input type="text" class="form-control input-small-text" id="firstname" name="firstname" style="font-size: 14px;" required>
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="lastname" class="form-label">Prenom</label>
-                                  <input type="text" class="form-control input-small-text" id="lastname" name="lastname"  style="font-size: 14px;"required>
-                              </div>
-                          </div>
-                          <div class="row mb-3">
-                              <div class="col-md-3">
-                                  <label for="birth_date" class="form-label">Date de naissance</label>
-                                  <input type="date" class="form-control input-small-text"id="birth_date" name="birth_date" style="font-size: 14px;" >
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="adress" class="form-label">Address</label>
-                                  <input type="text" class="form-control input-small-text" id="adress" name="adress" style="font-size: 14px;"  required>
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="phone" class="form-label">Phone</label>
-                                  <input type="text" class="form-control input-small-text"id="phone" name="phone" style="font-size: 14px;" required>
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="email" class="form-label">Email</label>
-                                  <input type="email" class="form-control input-small-text"id="email" name="email" style="font-size: 14px;" required>
-                              </div>
-                          </div>
-                          <div class="row mb-3">
-                              <div class="col-md-3">
-                                  <label for="gendre" class="form-label">Sexe</label>
-                                  <input type="text" class="form-control input-small-text" id="gendre" name="gendre" style="font-size: 14px;" >
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="situation" class="form-label">Situation</label>
-                                  <input type="text" class="form-control input-small-text" id="situation" name="situation" style="font-size: 14px;" >
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="nbr_child" class="form-label">Nombre d'enfanr</label>
-                                  <input type="number" class="form-control input-small-text"id="nbr_child" name="nbr_child"style="font-size: 14px;" >
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="blood_type" class="form-label">Type sanguin</label>
-                                  <input type="text" class="form-control input-small-text" id="blood_type" name="blood_type" style="font-size: 14px;" >
-                              </div>
-                          </div>
-                          <div class="row mb-3">
-                              <div class="col-md-3">
-                                  <label for="birth_address" class="form-label">Address de naissance</label>
-                                  <input type="text" class="form-control input-small-text" id="birth_address" name="birth_address"style="font-size: 14px;" >
-                              </div>
-                              <div class="col-md-3">
-                                  <label for="num_carte" class="form-label">Numero de la carte</label>
-                                  <input type="number" class="form-control input-small-text"id="num_carte" name="num_carte"style="font-size: 14px;" >
-                              </div>
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                          <button type="submit" class="btn btn-primary">Sauvgarder</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-      
-      
+        <!-- Table 2 -->
+        <div id="table2" class="tables-wrapper" style="display: none;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-style mb-30">
+                        <div class="d-flex justify-content-between align-items-center mb-10">
+                            <h6>Data Table 2</h6>
+                        </div>
+                        <div class="table-wrapper table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <input type="text" id="tableSearch2" class="form-control form-control-sm small-search" placeholder="Search..." onkeyup="filterTable()" style="width: 200px;">
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <th onclick="sortTable2(0)"><h6>id <span id="id-sort2"></span></h6></th>
+                                        <th onclick="sortTable2(1)"><h6>Employe <span id="name-sort2"></span></h6></th>
+                                        <th onclick="sortTable2(2)"><h6>securite sociale <span id="ssn-sort2"></span></h6></th>
+                                        <th onclick="sortTable2(3)"><h6>telephone <span id="phone-sort2"></span></h6></th>
+                                     
+                                        <th onclick="sortTable2(5)"><h6>Date de naissance <span id="dob-sort2"></span></h6></th>
+                                        <th onclick="sortTable2(6)"><h6>Lieu de naissance <span id="pob-sort2"></span></h6></th>
+                                        <th onclick="sortTable2(7)"><h6>Status <span id="status-sort2"></span></h6></th>
+                                        <th><h6>Actions</h6></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Loop for each inactive employee -->
+                                    {% for employee in inactive_employees %}
+                                    <tr>
+                                        <td class="min-width"><p>{{ employee.id }}</p></td>
+                                        <td class="min-width"><p>{{ employee.firstname }} {{ employee.lastname }}</p></td>
+                                        <td class="min-width"><p>{{ employee.numss }}</p></td>
+                                        <td class="min-width"><p>{{ employee.phone }}</p></td>
+                                        <td class="min-width"><p>{{ employee.birth_date }}</p></td>
+                                        <td class="min-width"><p>{{ employee.birth_address }}</p></td>
+                                        <td class="min-width"><p>{{ employee.departement}}</p></td>
+                                        <td class="min-width"><span style="color: #ffffff;
+                                            background: rgb(255, 0, 0);
+                    
+                                            padding: 7px 15px;
+                                            border-radius: 30px;
+                                            font-size: 14px;
+                                            font-weight: 400;
+                                        ">{{ employee.status }}</span></td>
+                                        <td class="min-width">
+                                            <span class="icon" onclick="toggleDropdown(event)">
+                                                <span class="mdi mdi-dots-vertical"></span><!-- 3-dot icon -->
+                                            </span>
+                                            <div class="dropdown-menu" style="right: 0; left: auto;">
+                                                <ul class="list-unstyled">
+                                                    <li>
+                                                        <button class="dropdown-item text-danger d-flex align-items-center" onclick="showDeleteConfirmation({{ employee.id }})">
+                                                            <span class="dropdown-text">Delete</span>
+                                                            <i class="lni lni-trash-can icon-spacing ms-auto"></i>
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" onclick="showLeaveConfirmation('{{ employee.firstname }} {{ employee.lastname }}', {{ employee.id }})">
+                                                            <span class="dropdown-text">Quitter</span>
+                                                            <span class="mdi mdi-logout icon-spacing ms-auto" ></span>
+
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{% url 'employee_details' employee_id=employee.id %}" class="dropdown-item d-flex align-items-center">
+                                                            <span class="dropdown-text">Details</span>
+                                                            <span class="mdi mdi-eye icon-spacing ms-auto"></span>
+
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" 
+                                                            onclick="openEditModal({
+                                                                id: '{{ employee.id }}', 
+                                                                num_ss: '{{ employee.numss }}',
+                                                                type: '{{ employee.type }}',
+                                                                firstname: '{{ employee.firstname }}', 
+                                                                lastname: '{{ employee.lastname }}', 
+                                                                birth_date: '{{ employee.birth_date }}',
+                                                                adress: '{{ employee.adress }}',
+                                                                phone: '{{ employee.phone }}',
+                                                                email: '{{ employee.email }}',
+                                                                gendre: '{{ employee.gendre }}',
+                                                                situation: '{{ employee.situation }}',
+                                                                nbr_child: '{{ employee.nbr_child }}',
+                                                                blood_type: '{{ employee.blood_type }}',
+                                                                birth_address: '{{ employee.birth_address  }}',
+                                                                num_carte: '{{ employee.num_carte }}',
+                                                                salary_amount: '{{ employee.salary_amount }}', 
+                                                                departement: '{{ employee.departement }}',
+                                                                status: '{{ employee.status }}'
+                                                            })">
+                                                            <span class="dropdown-text">Modifier</span>
+                                                            <span class="mdi mdi-pencil icon-spacing ms-auto"></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
-        <!-- Delete Confirmation Modal -->
-        <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+
+        
+<div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- Use modal-lg for a wider modal -->
+        <div class="modal-content">
+            <form id="editEmployeeForm" method="post" action="{% url 'edit_employee' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEmployeeModalLabel">Edit Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="employeeId">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="num_ss" class="form-label">Numero de securite sociale</label>
+                            <input type="number" class="form-control input-small-text" id="num_ss" name="num_ss" style="font-size: 14px;" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="type" class="form-label">Type</label>
+                            <input type="text" class="form-control input-small-text" id="type" name="type" style="font-size: 14px;" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="firstname" class="form-label">Nom</label>
+                            <input type="text" class="form-control input-small-text" id="firstname" name="firstname" style="font-size: 14px;" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="lastname" class="form-label">Prenom</label>
+                            <input type="text" class="form-control input-small-text" id="lastname" name="lastname" style="font-size: 14px;" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="birth_date" class="form-label">Date de naissance</label>
+                            <input type="date" class="form-control input-small-text" id="birth_date" name="birth_date" style="font-size: 14px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="adress" class="form-label">Address</label>
+                            <input type="text" class="form-control input-small-text" id="adress" name="adress" style="font-size: 14px;" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control input-small-text" id="phone" name="phone" style="font-size: 14px;" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control input-small-text" id="email" name="email" style="font-size: 14px;" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="gendre" class="form-label">Sexe</label>
+                            <select class="form-control" id="gendre" name="gendre" style="font-size: 14px;">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="situation" class="form-label">Situation</label>
+                            <select class="form-control" id="situation" name="situation" style="font-size: 14px;">
+                                <option value="">Select Situation</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="nbr_child" class="form-label">Nombre d'enfant</label>
+                            <input type="number" class="form-control input-small-text" id="nbr_child" name="nbr_child" style="font-size: 14px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="blood_type" class="form-label">Type sanguin</label>
+                            <select class="form-control" id="blood_type" name="blood_type" style="font-size: 14px;">
+                                <option value="">Select Blood Type</option>
+                                <option value="A+">A+</option>
+                                <option value="O+">O+</option>
+                                <option value="B+">B+</option>
+                                <option value="AB+">AB+</option>
+                                <option value="A-">A-</option>
+                                <option value="O-">O-</option>
+                                <option value="B-">B-</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="birth_address" class="form-label">Address de naissance</label>
+                            <input type="text" class="form-control input-small-text" id="birth_address" name="birth_address" style="font-size: 14px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="num_carte" class="form-label">Numero de la carte</label>
+                            <input type="number" class="form-control input-small-text" id="num_carte" name="num_carte" style="font-size: 14px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="departement" class="form-label">Departement</label>
+                            <select class="form-control" id="departement" name="departement" style="font-size: 14px;">
+                                <option value="">Select Department</option>
+                                <option value="HR">Human Resources</option>
+                                <option value="IT">Information Technology</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Marketing">Marketing</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Sauvgarder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+      <div class="modal fade" id="assignProjectModal" tabindex="-1" role="dialog" aria-labelledby="assignProjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg"> <!-- Use modal-lg for a wider modal -->
+            <div class="modal-content">
+                <form id="assignProjectForm" method="post" action="{% url 'assign_project' %}">
+                    {% csrf_token %}
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirmer la Suppression</h5>
+                        <h5 class="modal-title" id="assignProjectModalLabel">Affecter Projet</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Êtes-vous sûr de vouloir supprimer cet employé: <span id="employeeName"></span> ?
+                        <input type="hidden" name="employee_id" id="employeeIdInput">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="project" class="form-label">Projet</label>
+                                <select name="project" class="form-control" id="project" required>
+                                    <option value="">Sélectionnez un projet</option>
+                                    {% for project in projects %}
+                                        <option value="{{ project.project_id }}">{{ project.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="role" class="form-label">Rôle</label>
+                                <input type="text" name="role" id="role" class="form-control" required style="font-size: 14px;">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="assigned_date" class="form-label">Date d'affectation</label>
+                                <input type="date" name="assigned_date" id="assigned_date" class="form-control" required style="font-size: 14px;">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Supprimer</button>
+                        <button type="submit" class="btn btn-primary">Affecter</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-        
+    </div>
+    
+    
+      
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="deleteConfirmationLabel">Confirmation de Suppression</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Êtes-vous sûr de vouloir supprimer cet employé ?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="button" id="confirmDelete" class="btn btn-danger">Supprimer</button>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Leave Confirmation Modal -->
+<div class="modal fade" id="leaveConfirmationModal" tabindex="-1" aria-labelledby="leaveConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="leaveConfirmationLabel">Confirmation de Départ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir que <span id="employeeName"></span> quitte l'entreprise ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" id="confirmLeave" class="btn btn-danger">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
           <!-- Table 2 (hidden by default) -->
           <div id="table2" class="tables-wrapper" style="display: none;">
             <div class="row">
@@ -420,40 +649,9 @@
     <script src="{% static 'assets/js/main.js' %}"></script>
   </body>
 
-  <script>
-    function showDeleteConfirmation(employeeName, employeeId) {
-        document.getElementById('employeeName').textContent = employeeName;
-        const deleteButton = document.querySelector('#deleteConfirmationModal .btn-danger');
-        deleteButton.setAttribute('onclick', `confirmDelete('${employeeId}')`);
-        var deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
-        deleteModal.show();
-    }
-    
-    function confirmDelete(employeeId) {
-        // Make an AJAX call to delete the employee
-        fetch(`/delete_employee/${employeeId}/`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => {
-            if (response.ok) {
-                // Optionally, refresh the page or remove the employee from the table
-                window.location.reload(); // Refresh the page to see changes
-            } else {
-                alert('Error deleting employee');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-    
-    </script>
+
    <script>
-   function openEditModal(employee) {
+  function openEditModal(employee) {
     // Populate modal fields with employee data
     document.getElementById("employeeId").value = employee.id;
     document.getElementById("num_ss").value = employee.num_ss;
@@ -472,18 +670,242 @@
     document.getElementById("adress").value = employee.adress;
     document.getElementById("phone").value = employee.phone;
     document.getElementById("email").value = employee.email;
-    document.getElementById("gendre").value = employee.gendre;
-    document.getElementById("situation").value = employee.situation;
+    
+    // Set the gender from the employee data
+    const gendreSelect = document.getElementById("gendre");
+    gendreSelect.value = employee.gendre || ""; // Ensure it selects the correct option or defaults to empty
+
+    // Set the situation from the employee data
+    const situationSelect = document.getElementById("situation");
+    situationSelect.value = employee.situation || "";
+
+    // Set the blood type from the employee data
+    const bloodTypeSelect = document.getElementById("blood_type");
+    bloodTypeSelect.value = employee.blood_type || "";
+
+    // Set the department from the employee data
+    const departementSelect = document.getElementById("departement");
+    departementSelect.value = employee.departement ;
+
     document.getElementById("nbr_child").value = employee.nbr_child;
-    document.getElementById("blood_type").value = employee.blood_type;
     document.getElementById("birth_address").value = employee.birth_address;
     document.getElementById("num_carte").value = employee.num_carte;
 
     // Show the modal
-    let editModal = new bootstrap.Modal(document.getElementById('editEmployeeModal'));
+    let editModal = new bootstrap.Modal(document.getElementById("editEmployeeModal"));
     editModal.show();
 }
 
     </script>
     
+    <script>
+      let employeeIdToDelete = null; // Variable to store the employee ID to delete
+  
+      function showDeleteConfirmation(employeeId) {
+          employeeIdToDelete = employeeId; // Store the employee ID
+          const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+          deleteModal.show(); // Show the modal
+      }
+  
+      document.getElementById('confirmDelete').addEventListener('click', function() {
+          if (employeeIdToDelete) {
+              deleteEmployee(employeeIdToDelete);
+              const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmationModal'));
+              deleteModal.hide(); // Hide the modal after confirmation
+          }
+      });
+  
+      function deleteEmployee(employeeId) {
+          // Send an AJAX request to delete the employee
+          fetch(`/delete_employee/${employeeId}/`, {
+              method: 'DELETE',
+              headers: {
+                  'X-CSRFToken': '{{ csrf_token }}', // Include CSRF token for security
+                  'Content-Type': 'application/json'
+              }
+          })
+          .then(response => {
+              if (response.ok) {
+                  // Optionally, remove the employee row from the table or refresh the page
+                  alert('Employee deleted successfully.'); // Notify the user
+                  location.reload(); // Reload the page to reflect the changes
+              } else {
+                  response.json().then(data => {
+                      alert(data.error || 'Error deleting the employee.'); // Display any error message
+                  });
+              }
+          })
+          .catch(error => console.error('Error:', error));
+      }
+  </script>
+  <script>function showLeaveConfirmation(employeeName, employeeId) {
+    // Set the employee name dynamically in the modal
+    document.getElementById('employeeName').textContent = employeeName;
+
+    // Show the modal
+    $('#leaveConfirmationModal').modal('show');
+
+    // Set the click event for the "Confirm" button inside the modal
+    document.getElementById('confirmLeave').onclick = function() {
+        changeStatusToInactive(employeeId);
+        $('#leaveConfirmationModal').modal('hide'); // Hide the modal after action
+    };
+}
+
+function changeStatusToInactive(employeeId) {
+    fetch(`/change_status_to_inactive/${employeeId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}' // Make sure the CSRF token is available in your template context
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            location.reload(); // Reload the page to reflect the status change
+        } else {
+            alert('Failed to update status.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+</script>
+<script>
+function toggleDropdown(event) {
+    // Prevent default button behavior
+    event.stopPropagation();
+    
+    // Find the closest dropdown menu
+    const dropdown = event.target.closest('td').querySelector('.dropdown-menu');
+    
+    // Toggle the display of the dropdown
+    dropdown.style.display = dropdown.style.display === 'none' || dropdown.style.display === '' ? 'block' : 'none';
+}
+
+// Close the dropdown if the user clicks outside of it
+document.addEventListener('click', function() {
+    const dropdowns = document.querySelectorAll('.dropdown-menu');
+    dropdowns.forEach(dropdown => {
+        dropdown.style.display = 'none';
+    });
+});
+</script>
+<script>
+    function showAssignProjectModal(employeeName, employeeId) {
+        document.getElementById("employeeIdInput").value = employeeId;
+        $('#assignProjectModal').modal('show');
+    }
+</script>
+<script>// JavaScript function to toggle between tables
+    document.getElementById("showTable1").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("table1").style.display = "block";
+        document.getElementById("table2").style.display = "none";
+    });
+    
+    document.getElementById("showTable2").addEventListener("click", function(event) {
+        event.preventDefault();
+        document.getElementById("table1").style.display = "none";
+        document.getElementById("table2").style.display = "block";
+    });
+    
+    // JavaScript function to filter table rows based on search input
+    function filterTable() {
+    // Get the search input value and convert it to uppercase for case-insensitive search
+    const searchInput = document.getElementById('tableSearch').value.toUpperCase();
+    
+    // Determine which table is currently visible
+    const activeTable = document.getElementById('table1').style.display !== 'none' ? 'table1' : 'table2';
+    
+    // Get the rows of the active table
+    const table = document.getElementById(activeTable);
+    const rows = table.getElementsByTagName('tr');
+
+    // Loop through each row (skip the header row)
+    for (let i = 1; i < rows.length; i++) {
+        let row = rows[i];
+        let textContent = row.textContent || row.innerText;
+        
+        // Check if row text includes the search value
+        if (textContent.toUpperCase().indexOf(searchInput) > -1) {
+            row.style.display = ""; // Show row
+        } else {
+            row.style.display = "none"; // Hide row
+        }
+    }
+}
+
+    </script>
+    <script>let sortOrder = {}; // To track sorting state for each column
+
+        function sortTable(columnIndex) {
+            const table = document.querySelector('table tbody');
+            const rows = Array.from(table.rows);
+            const header = table.previousElementSibling.querySelectorAll('th');
+            const icon = header[columnIndex].querySelector('span'); // Get the span for the clicked column
+        
+            const currentOrder = sortOrder[columnIndex] || 'asc'; // Default to ascending
+        
+            // Toggle sort order for the next click
+            sortOrder[columnIndex] = currentOrder === 'asc' ? 'desc' : 'asc';
+        
+            // Sort the rows
+            rows.sort((a, b) => {
+                const cellA = a.cells[columnIndex].textContent.trim();
+                const cellB = b.cells[columnIndex].textContent.trim();
+        
+                let comparison = 0;
+        
+                // Number comparison for salary and id columns (if needed)
+                if (columnIndex === 4 || columnIndex === 0) {
+                    comparison = parseFloat(cellA) - parseFloat(cellB);
+                } else {
+                    comparison = cellA.localeCompare(cellB);
+                }
+        
+                return currentOrder === 'asc' ? comparison : -comparison;
+            });
+        
+            // Reorder the rows in the table
+            rows.forEach(row => table.appendChild(row));
+        
+            // Update the sorting icons
+            resetSortingIcons(); // Reset all icons
+            icon.innerHTML = currentOrder === 'asc' ? '↑' : '↓'; // Show the correct icon for the clicked column
+        }
+        
+        function resetSortingIcons() {
+            // Clear all sorting icons
+            const icons = document.querySelectorAll('th span');
+            icons.forEach(icon => icon.innerHTML = '↓↑'); // Reset all icons to the default '↓↑'
+        }
+        
+        </script>
+        <script>function filterTable() {
+            // Get the input value
+            let filter = document.getElementById("tableSearch2").value.toLowerCase();
+            // Get the table rows
+            let rows = document.querySelectorAll("#table2 tbody tr");
+        
+            // Loop through the rows and hide those that don't match the filter
+            rows.forEach(function(row) {
+                let cells = row.querySelectorAll("td");
+                let rowText = "";
+                
+                // Concatenate text from each cell in the row
+                cells.forEach(function(cell) {
+                    rowText += cell.textContent.toLowerCase();
+                });
+        
+                // If the row's text content matches the filter, show the row, otherwise hide it
+                if (rowText.indexOf(filter) > -1) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+        </script>
+  
 </html>
